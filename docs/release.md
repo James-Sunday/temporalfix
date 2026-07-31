@@ -13,3 +13,28 @@
 
 The release workflow requires a typed target confirmation and, for production,
 an explicit TestPyPI-validation flag. Tags alone never publish.
+
+## TestPyPI validation record
+
+TemporalFix `0.1.0rc1` was published through GitHub OIDC Trusted Publishing on
+2026-07-31 and validated by
+[release run 30636027408](https://github.com/James-Sunday/temporalfix/actions/runs/30636027408).
+The run rebuilt from `main`, repeated all release gates, uploaded both formats,
+installed the package from TestPyPI without dependencies, and ran import,
+version, and CLI-help probes.
+
+An independent local check installed the exact published wheel URL and ran a
+minimal `Detections`/`TemporalRepairer` API probe. The published artifacts are:
+
+| Artifact | TestPyPI SHA-256 |
+| --- | --- |
+| `temporalfix-0.1.0rc1-py3-none-any.whl` | `be75afed5ff1cd9231c9a2cd0164b01eea0ec8d732525244acec858ec1ff9e60` |
+| `temporalfix-0.1.0rc1.tar.gz` | `4fc7045aaddb2a83dfcd49ae7b8b0b40f2ed8089eec464f68496dd093121949d` |
+
+The Linux-published and locally built Windows wheels differ in ZIP container
+metadata, but all 21 member paths and member SHA-256 values are identical. The
+source-distribution SHA-256 is identical across the two builds.
+
+Production remains blocked until the owner separately approves the `0.1.0`
+version change, production Trusted Publisher, PyPI upload, and public GitHub
+release.
