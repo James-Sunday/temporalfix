@@ -6,14 +6,14 @@ import temporalfix
 from temporalfix.cli import main
 
 
-def test_version_is_release_candidate() -> None:
-    assert temporalfix.__version__ == "0.1.0rc1"
+def test_version_is_stable() -> None:
+    assert temporalfix.__version__ == "0.1.0"
 
 
 def test_version_command(capsys: pytest.CaptureFixture[str]) -> None:
     assert main(["version"]) == 0
     captured = capsys.readouterr()
-    assert captured.out == "temporalfix 0.1.0rc1\n"
+    assert captured.out == "temporalfix 0.1.0\n"
 
 
 def test_help_command(capsys: pytest.CaptureFixture[str]) -> None:
