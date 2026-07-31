@@ -1,7 +1,7 @@
 # Release process
 
 1. Replace every ownership placeholder and confirm repository visibility.
-2. Run `uv sync --locked --all-groups` and every command in `AGENTS.md`.
+2. Run `uv sync --locked --all-groups` and every command in `DEVELOPMENT.md`.
 3. Build once with `uv build`, validate metadata, inspect licences, and create
    checksums.
 4. Publish the exact `0.1.0rc1` artifacts to TestPyPI through the protected

@@ -95,7 +95,7 @@ include = [
   "/research",
   "/scripts",
   "/.github",
-  "/AGENTS.md",
+  "/DEVELOPMENT.md",
   "/CHANGELOG.md",
   "/CITATION.cff",
   "/CODE_OF_CONDUCT.md",
