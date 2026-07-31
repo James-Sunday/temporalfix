@@ -8,8 +8,12 @@
    `testpypi` environment using Trusted Publishing.
 5. Install only from TestPyPI in a clean environment and run import, CLI, and
    minimal API smoke checks.
-6. Record validation and obtain separate approval before changing to `0.1.0`
-   and publishing production PyPI artifacts.
+6. Record validation and obtain approval before preparing stable version
+   `0.1.0`.
+7. Re-run every gate against the stable version and review its draft release
+   pull request.
+8. Obtain separate approval before publishing to production PyPI or creating a
+   public GitHub release.
 
 The release workflow requires a typed target confirmation and, for production,
 an explicit TestPyPI-validation flag. Tags alone never publish.
@@ -35,6 +39,25 @@ The Linux-published and locally built Windows wheels differ in ZIP container
 metadata, but all 21 member paths and member SHA-256 values are identical. The
 source-distribution SHA-256 is identical across the two builds.
 
-Production remains blocked until the owner separately approves the `0.1.0`
-version change, production Trusted Publisher, PyPI upload, and public GitHub
-release.
+## Production preparation
+
+Stable version `0.1.0` contains no runtime API changes from the validated
+release candidate. Before the production run, register this pending Trusted
+Publisher at <https://pypi.org/manage/account/publishing/>:
+
+| Field | Value |
+| --- | --- |
+| PyPI project name | `temporalfix` |
+| GitHub owner | `James-Sunday` |
+| Repository | `temporalfix` |
+| Workflow | `release.yml` |
+| Environment | `pypi` |
+
+After the stable release pull request is merged and production publication is
+explicitly approved, dispatch `release.yml` from `main` with target `pypi`,
+confirmation `pypi`, and `testpypi_validated` enabled. The workflow rebuilds
+and verifies the artifacts, publishes through OIDC, installs the published
+version from PyPI, and creates `v0.1.0` only after that installation succeeds.
+
+Production PyPI upload and the public GitHub release remain blocked until the
+owner gives that separate approval.

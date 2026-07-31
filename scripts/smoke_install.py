@@ -6,6 +6,7 @@ import argparse
 import subprocess
 import sys
 import tempfile
+import tomllib
 from pathlib import Path
 
 
@@ -19,6 +20,8 @@ def main() -> int:
     parser.add_argument("--directory", type=Path, default=Path("dist"))
     arguments = parser.parse_args()
     root = Path(__file__).resolve().parents[1]
+    with (root / "pyproject.toml").open("rb") as handle:
+        expected_version = str(tomllib.load(handle)["project"]["version"])
     directory = (
         arguments.directory
         if arguments.directory.is_absolute()
@@ -56,6 +59,7 @@ def main() -> int:
             probe = (
                 "import sys, temporalfix, temporalfix.adapters; "
                 "print(temporalfix.__version__); "
+                f"assert temporalfix.__version__ == {expected_version!r}; "
                 "assert 'ultralytics' not in sys.modules; "
                 "assert 'supervision' not in sys.modules"
             )

@@ -6,9 +6,9 @@
 TemporalFix stabilizes and repairs frame-level object detections without
 locking an application to a detector or full tracking framework.
 
-> Status: `0.1.0rc1` is published and validated on
-> [TestPyPI](https://test.pypi.org/project/temporalfix/0.1.0rc1/). Production
-> PyPI remains gated on a stable `0.1.0` version and explicit owner approval.
+> Status: stable version `0.1.0` is prepared from the
+> [TestPyPI-validated `0.1.0rc1`](https://test.pypi.org/project/temporalfix/0.1.0rc1/).
+> Production PyPI and the public GitHub release remain approval-gated.
 
 ## Installation
 

@@ -2,6 +2,16 @@
 
 ## Unreleased
 
+## 0.1.0 - 2026-07-31
+
+### Changed
+
+- Promoted the TestPyPI-validated release candidate to the stable version
+  without runtime API changes.
+- Hardened release automation with version-aware validation, current
+  GitHub-maintained actions, a production clean-install check, and GitHub
+  release creation only after the PyPI package validates.
+
 ## 0.1.0rc1 - 2026-07-31
 
 ### Added
