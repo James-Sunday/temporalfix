@@ -1,4 +1,4 @@
-# TemporalFix contributor and agent guide
+# TemporalFix development guide
 
 ## Purpose and boundaries
 
@@ -59,5 +59,5 @@ checks. Record unavailable optional-framework tests as skips with their reasons.
 
 Never create a public repository, change visibility, publish to TestPyPI or
 PyPI, create a public release, or upload benchmark artifacts without explicit
-user approval. Prefer Trusted Publishing with short-lived OIDC credentials;
+owner approval. Prefer Trusted Publishing with short-lived OIDC credentials;
 never store release tokens in this repository.

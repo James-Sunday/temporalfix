@@ -1,7 +1,7 @@
 # Release process
 
 1. Replace every ownership placeholder and confirm repository visibility.
-2. Run `uv sync --locked --all-groups` and every command in `AGENTS.md`.
+2. Run `uv sync --locked --all-groups` and every command in `DEVELOPMENT.md`.
 3. Build once with `uv build`, validate metadata, inspect licences, and create
    checksums.
 4. Publish the exact `0.1.0rc1` artifacts to TestPyPI through the protected
@@ -39,25 +39,42 @@ The Linux-published and locally built Windows wheels differ in ZIP container
 metadata, but all 21 member paths and member SHA-256 values are identical. The
 source-distribution SHA-256 is identical across the two builds.
 
-## Production preparation
+## Production release record
 
 Stable version `0.1.0` contains no runtime API changes from the validated
-release candidate. Before the production run, register this pending Trusted
-Publisher at <https://pypi.org/manage/account/publishing/>:
+release candidate. It was published through GitHub OIDC Trusted Publishing on
+2026-07-31 by
+[release run 30639578579](https://github.com/James-Sunday/temporalfix/actions/runs/30639578579)
+from `main` commit `6e8c170a6c0ee67464914707bd2f46c154c21c4d`.
+
+The run repeated every quality and release gate, uploaded both distributions,
+installed `temporalfix==0.1.0` from production PyPI, ran import/version/CLI
+probes, and created the public
+[`v0.1.0` GitHub release](https://github.com/James-Sunday/temporalfix/releases/tag/v0.1.0)
+only after package validation succeeded.
+
+| Artifact | Production PyPI SHA-256 |
+| --- | --- |
+| `temporalfix-0.1.0-py3-none-any.whl` | `422388af90ecc08c9af98a185425364b06bf313f9728664a87460719026e4282` |
+| `temporalfix-0.1.0.tar.gz` | `79d510b40de3075d3f9ed874793d9314391a6911c3729b998beeb96e3920d49e` |
+
+An independent local Python 3.13 environment installed the exact published
+wheel after verifying both downloaded artifact hashes. The version, CLI help,
+and a minimal `Detections`/`TemporalRepairer` probe passed. PyPI records Trusted
+Publishing attestations for both artifacts against the release workflow and
+source commit.
+
+The active production Trusted Publisher configuration is:
 
 | Field | Value |
 | --- | --- |
-| PyPI project name | `temporalfix` |
+| PyPI project | `temporalfix` |
 | GitHub owner | `James-Sunday` |
 | Repository | `temporalfix` |
 | Workflow | `release.yml` |
 | Environment | `pypi` |
 
-After the stable release pull request is merged and production publication is
-explicitly approved, dispatch `release.yml` from `main` with target `pypi`,
-confirmation `pypi`, and `testpypi_validated` enabled. The workflow rebuilds
-and verifies the artifacts, publishes through OIDC, installs the published
-version from PyPI, and creates `v0.1.0` only after that installation succeeds.
-
-Production PyPI upload and the public GitHub release remain blocked until the
-owner gives that separate approval.
+The PyPI `0.1.0` long description is immutable and therefore retains the
+pre-publication status sentence embedded in its uploaded metadata. The current
+repository README and documentation are authoritative; the corrected status
+will be included in the next package version.
