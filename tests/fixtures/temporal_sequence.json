@@ -1,0 +1,60 @@
+{
+  "config": {
+    "min_confirmed_observations": 1,
+    "box_smoothing": "none",
+    "confidence_stabilization": false,
+    "max_missing_frames": 1
+  },
+  "frames": [
+    {
+      "xyxy": [[0.0, 0.0, 10.0, 10.0]],
+      "confidence": [0.9],
+      "class_id": [1]
+    },
+    {
+      "xyxy": [[1.0, 0.0, 11.0, 10.0]],
+      "confidence": [0.8],
+      "class_id": [1]
+    },
+    {
+      "xyxy": [],
+      "confidence": [],
+      "class_id": []
+    },
+    {
+      "xyxy": [],
+      "confidence": [],
+      "class_id": []
+    }
+  ],
+  "expected": [
+    {
+      "xyxy": [[0.0, 0.0, 10.0, 10.0]],
+      "track_id": [1],
+      "class_id": [1],
+      "source": ["direct"],
+      "time_since_update": [0]
+    },
+    {
+      "xyxy": [[1.0, 0.0, 11.0, 10.0]],
+      "track_id": [1],
+      "class_id": [1],
+      "source": ["direct"],
+      "time_since_update": [0]
+    },
+    {
+      "xyxy": [[1.0, 0.0, 11.0, 10.0]],
+      "track_id": [1],
+      "class_id": [1],
+      "source": ["recovered"],
+      "time_since_update": [1]
+    },
+    {
+      "xyxy": [],
+      "track_id": [],
+      "class_id": [],
+      "source": [],
+      "time_since_update": []
+    }
+  ]
+}

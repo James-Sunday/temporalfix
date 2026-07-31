@@ -1,0 +1,98 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main, develop, "release/**"]
+
+permissions:
+  contents: read
+
+jobs:
+  quality:
+    name: Quality, docs, and security
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: astral-sh/setup-uv@v7
+        with:
+          enable-cache: true
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.13"
+      - run: uv sync --locked --all-groups
+      - run: uv run ruff check .
+      - run: uv run ruff format --check .
+      - run: uv run mypy
+      - run: uv run python scripts/mutation_smoke.py
+      - run: uv run mkdocs build --strict
+      - run: uv run bandit -r src
+      - run: uv run detect-secrets scan --baseline .secrets.baseline
+      - run: uv run pip-audit
+
+  tests:
+    name: ${{ matrix.os }} / Python ${{ matrix.python }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        python: ["3.11", "3.12", "3.13", "3.14"]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v5
+      - uses: astral-sh/setup-uv@v7
+        with:
+          enable-cache: true
+      - uses: actions/setup-python@v6
+        with:
+          python-version: ${{ matrix.python }}
+      - run: uv sync --locked --all-groups
+      - run: uv run pytest --cov --cov-report=xml
+
+  optional-adapters:
+    name: Optional adapter / ${{ matrix.extra }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - extra: supervision
+            test: tests/test_supervision_adapter.py
+          - extra: ultralytics
+            test: tests/test_ultralytics_adapter.py
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: astral-sh/setup-uv@v7
+        with:
+          enable-cache: true
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.13"
+      - run: uv sync --locked --all-groups
+      - run: uv pip install -e ".[${{ matrix.extra }}]"
+      - run: uv run pytest "${{ matrix.test }}" -q
+
+  build:
+    name: Build and clean-install smoke test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: astral-sh/setup-uv@v7
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.13"
+      - run: uv sync --locked --all-groups
+      - run: uv build --out-dir dist/packages
+      - run: uv run twine check dist/packages/*
+      - run: uv run python scripts/verify_release_artifacts.py --directory dist/packages
+      - run: uv run python scripts/smoke_install.py --directory dist/packages
+      - run: >-
+          uv run python scripts/checksums.py --directory dist/packages
+          --output dist/SHA256SUMS
+      - uses: actions/upload-artifact@v4
+        with:
+          name: temporalfix-distributions
+          path: |
+            dist/packages/*.whl
+            dist/packages/*.tar.gz
+            dist/SHA256SUMS

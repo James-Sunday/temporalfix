@@ -1,0 +1,115 @@
+name: Publish package
+
+on:
+  workflow_dispatch:
+    inputs:
+      target:
+        description: External target; build-only makes no external changes
+        required: true
+        type: choice
+        options:
+          - build-only
+          - testpypi
+          - pypi
+      confirmation:
+        description: Type the selected target to confirm explicit approval
+        required: true
+        type: string
+      testpypi_validated:
+        description: Confirm this exact candidate passed the TestPyPI gate
+        required: true
+        default: false
+        type: boolean
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Rebuild and verify release artifacts
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: astral-sh/setup-uv@v7
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.13"
+      - run: test "${{ inputs.target }}" = "${{ inputs.confirmation }}"
+      - if: inputs.target != 'build-only'
+        run: uv run python scripts/release_gate.py --target "${{ inputs.target }}"
+      - run: uv sync --locked --all-groups
+      - run: uv run ruff check .
+      - run: uv run ruff format --check .
+      - run: uv run mypy
+      - run: uv run pytest --cov --cov-report=term-missing
+      - run: uv run mkdocs build --strict
+      - run: uv run bandit -r src
+      - run: uv run detect-secrets scan --baseline .secrets.baseline
+      - run: uv run pip-audit
+      - run: uv build --out-dir dist/packages
+      - run: uv run twine check dist/packages/*
+      - run: uv run python scripts/verify_release_artifacts.py --directory dist/packages
+      - run: uv run python scripts/smoke_install.py --directory dist/packages
+      - run: >-
+          uv run python scripts/checksums.py --directory dist/packages
+          --output dist/SHA256SUMS
+      - uses: actions/upload-artifact@v4
+        with:
+          name: release-distributions
+          path: |
+            dist/packages/*.whl
+            dist/packages/*.tar.gz
+            dist/SHA256SUMS
+
+  publish-testpypi:
+    if: inputs.target == 'testpypi' && inputs.confirmation == 'testpypi'
+    needs: build
+    runs-on: ubuntu-latest
+    environment: testpypi
+    permissions:
+      id-token: write
+    steps:
+      - uses: actions/download-artifact@v5
+        with:
+          name: release-distributions
+          path: dist
+      - uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          repository-url: https://test.pypi.org/legacy/
+          packages-dir: dist/packages
+
+  validate-testpypi:
+    if: inputs.target == 'testpypi' && inputs.confirmation == 'testpypi'
+    needs: publish-testpypi
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.13"
+      - run: python -m pip install --disable-pip-version-check numpy PyYAML
+      - run: >-
+          python -m pip install --disable-pip-version-check --no-deps
+          --index-url https://test.pypi.org/simple/
+          temporalfix==0.1.0rc1
+      - run: python -c "import temporalfix; print(temporalfix.__version__)"
+      - run: temporalfix version
+      - run: temporalfix --help
+
+  publish-pypi:
+    if: >-
+      inputs.target == 'pypi' &&
+      inputs.confirmation == 'pypi' &&
+      inputs.testpypi_validated
+    needs: build
+    runs-on: ubuntu-latest
+    environment: pypi
+    permissions:
+      id-token: write
+    steps:
+      - uses: actions/download-artifact@v5
+        with:
+          name: release-distributions
+          path: dist
+      - uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          packages-dir: dist/packages

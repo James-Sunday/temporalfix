@@ -1,0 +1,28 @@
+name: Bug report
+description: Report reproducible incorrect behavior
+title: "bug: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: Do not report security vulnerabilities here; follow SECURITY.md.
+  - type: textarea
+    id: behavior
+    attributes:
+      label: Observed behavior
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Minimal reproduction
+      render: python
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: OS, Python, TemporalFix and optional-integration versions.
+    validations:
+      required: true

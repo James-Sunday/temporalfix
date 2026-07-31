@@ -1,0 +1,46 @@
+site_name: TemporalFix
+site_description: Detector-agnostic temporal repair for video detections
+site_url: https://OWNER_PLACEHOLDER.github.io/temporalfix/
+repo_url: https://github.com/OWNER_PLACEHOLDER/temporalfix
+repo_name: OWNER_PLACEHOLDER/temporalfix
+copyright: "Copyright TemporalFix contributors; Apache-2.0"
+
+theme:
+  name: material
+  features:
+    - navigation.sections
+    - content.code.copy
+
+nav:
+  - Home: index.md
+  - User guide:
+      - Quick start: quickstart.md
+      - Configuration: configuration.md
+      - CLI: cli.md
+      - Optional integrations: integrations.md
+  - Reference:
+      - Public API: api.md
+      - Architecture: architecture.md
+      - Synthetic scenarios: synthetic-scenarios.md
+  - Evaluation:
+      - Benchmark methodology: benchmarks.md
+      - Accuracy and performance: accuracy-and-performance.md
+      - Research protocol: research.md
+  - Project:
+      - Known limitations: known-limitations.md
+      - Troubleshooting and FAQ: troubleshooting.md
+      - Contributing: contributing.md
+      - Security: security.md
+      - Release process: release.md
+      - Citation: citation.md
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.superfences
+  - tables
+
+strict: true
