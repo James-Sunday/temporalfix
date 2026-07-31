@@ -6,9 +6,9 @@
 TemporalFix stabilizes and repairs frame-level object detections without
 locking an application to a detector or full tracking framework.
 
-> Status: stable version `0.1.0` is prepared from the
-> [TestPyPI-validated `0.1.0rc1`](https://test.pypi.org/project/temporalfix/0.1.0rc1/).
-> Production PyPI and the public GitHub release remain approval-gated.
+> Status: stable version [`0.1.0`](https://pypi.org/project/temporalfix/0.1.0/)
+> is published on PyPI with Trusted Publishing attestations and has a public
+> [`v0.1.0` GitHub release](https://github.com/James-Sunday/temporalfix/releases/tag/v0.1.0).
 
 ## Installation
 
@@ -106,6 +106,7 @@ local artifacts are machine-specific, git-ignored and must be regenerated.
 | NumPy core, scenarios, CLI, and adapter contracts | Local Windows / Python 3.13 | Functional, not portable performance |
 | Optional adapters | Ubuntu / Python 3.13 CI with installed extras | Supervision and Ultralytics contract tests passed |
 | TestPyPI wheel | Clean GitHub runner and isolated local execution | Import, CLI, and minimal API smoke checks passed |
+| Production PyPI wheel | Clean GitHub runner and independent local Python 3.13 environment | Exact hash, import, CLI, and minimal API probes passed |
 
 ## Optional adapters
 
