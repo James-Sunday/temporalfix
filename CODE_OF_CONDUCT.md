@@ -19,7 +19,7 @@ conduct reasonably considered inappropriate in a professional setting.
 ## Enforcement
 
 Report conduct concerns through the repository's
-[private reporting form](https://github.com/OWNER_PLACEHOLDER/temporalfix/security/advisories/new).
+[private reporting form](https://github.com/James-Sunday/temporalfix/security/advisories/new).
 Project maintainers will investigate promptly, fairly and confidentially and
 may take corrective action up to a permanent ban.
 

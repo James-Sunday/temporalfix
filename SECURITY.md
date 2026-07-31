@@ -8,7 +8,7 @@ receives security fixes. After 0.1.0, the latest minor release is supported.
 ## Reporting
 
 Do not open public issues for suspected vulnerabilities. Use the repository's
-[private vulnerability-reporting form](https://github.com/OWNER_PLACEHOLDER/temporalfix/security/advisories/new)
+[private vulnerability-reporting form](https://github.com/James-Sunday/temporalfix/security/advisories/new)
 with the affected version, reproduction steps, impact, and suggested
 mitigation.
 

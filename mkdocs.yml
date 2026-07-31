@@ -1,8 +1,8 @@
 site_name: TemporalFix
 site_description: Detector-agnostic temporal repair for video detections
-site_url: https://OWNER_PLACEHOLDER.github.io/temporalfix/
-repo_url: https://github.com/OWNER_PLACEHOLDER/temporalfix
-repo_name: OWNER_PLACEHOLDER/temporalfix
+site_url: https://James-Sunday.github.io/temporalfix/
+repo_url: https://github.com/James-Sunday/temporalfix
+repo_name: James-Sunday/temporalfix
 copyright: "Copyright TemporalFix contributors; Apache-2.0"
 
 theme:

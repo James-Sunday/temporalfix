@@ -1,7 +1,7 @@
 # TemporalFix
 
-[![CI](https://github.com/OWNER_PLACEHOLDER/temporalfix/actions/workflows/ci.yml/badge.svg)](https://github.com/OWNER_PLACEHOLDER/temporalfix/actions/workflows/ci.yml)
-[![Documentation](https://github.com/OWNER_PLACEHOLDER/temporalfix/actions/workflows/docs.yml/badge.svg)](https://OWNER_PLACEHOLDER.github.io/temporalfix/)
+[![CI](https://github.com/James-Sunday/temporalfix/actions/workflows/ci.yml/badge.svg)](https://github.com/James-Sunday/temporalfix/actions/workflows/ci.yml)
+[![Documentation](https://github.com/James-Sunday/temporalfix/actions/workflows/docs.yml/badge.svg)](https://James-Sunday.github.io/temporalfix/)
 
 TemporalFix stabilizes and repairs frame-level object detections without
 locking an application to a detector or full tracking framework.

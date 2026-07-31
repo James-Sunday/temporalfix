@@ -11,7 +11,7 @@ requires-python = ">=3.11,<3.15"
 license = "Apache-2.0"
 license-files = ["LICENSE"]
 authors = [{ name = "TemporalFix contributors" }]
-maintainers = [{ name = "PACKAGE_OWNER_PLACEHOLDER" }]
+maintainers = [{ name = "Sunday James" }]
 keywords = [
   "computer-vision",
   "detections",
@@ -55,9 +55,9 @@ all = [
 temporalfix = "temporalfix.cli:main"
 
 [project.urls]
-Documentation = "https://OWNER_PLACEHOLDER.github.io/temporalfix/"
-Issues = "https://github.com/OWNER_PLACEHOLDER/temporalfix/issues"
-Repository = "https://github.com/OWNER_PLACEHOLDER/temporalfix"
+Documentation = "https://James-Sunday.github.io/temporalfix/"
+Issues = "https://github.com/James-Sunday/temporalfix/issues"
+Repository = "https://github.com/James-Sunday/temporalfix"
 
 [dependency-groups]
 dev = [
